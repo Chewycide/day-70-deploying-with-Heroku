@@ -67,3 +67,69 @@
 
 # So Heroku will call gunicorn to run our code and gunicorn will know how to speak 
 # to Heroku.
+
+# Next, we need to tell Heroku about our gunicorn server and how to run our Flask 
+# app, we do that using a Procfile.
+# Create a new file in the project top-level folder called Procfile
+
+# NOTE: make sure you spell the name of the file exactly as you see above, with a 
+# capital P and no file extension.
+
+# Type the following into the Procfile:
+# web: gunicorn main:app
+
+# This will tell Heroku to create a web worker, one that is able to receive HTTP 
+# requests.
+
+# To use gunicorn to serve your web app
+# And the Flask app object is the main.py file.
+# NOTE: If your app is not inside a file called main.py then you should change
+# main to your file name.
+
+
+# Upgrade SQLite to PostgreSQL
+# When we were coding and testing our Flask website, it was nice to use a simple 
+# database like SQLite. But SQLite is a file-based database. This is its strength 
+# and weakness. It's a strength because while we're coding up our database and 
+# debugging, it's really useful to be able to open the SQLite file using DB 
+# Viewer and see how our data looks.
+
+# But it's also a weakness because once it's deployed with Heroku the file 
+# locations are shifted around every 24 hours or so. This means that your database 
+# might just get wiped every day. That will mean some very unhappy users.
+# READ MORE: https://devcenter.heroku.com/articles/sqlite3
+
+# So we've got to put on our big-boy/big-girl pants and upgrade our simple 
+# SQLite database to PosgreSQL, a database that can handle millions of data 
+# entries and reliably delivers data to users.
+
+# Luckily, because we used SQLAlchemy to create our Flask app, there's nothing 
+# we need to change in terms of code. We just need to set up the PostgreSQL 
+# database and tell Heroku about it.
+
+# SQLite is pre-installed for all Python projects, but if we are going to use 
+# Postgres, we'll need to install the psycopg2-binary packages as well. 
+# https://pypi.org/project/psycopg2-binary/
+# NOTE: you'll also need to add the package name and version to requirements.txt 
+# as well as commit and push the updates.
+
+
+# Important, make sure that you don't include any pipfile or pipfile.lock files 
+# in your GitHub repo (you can delete them and commit the changes). Heroku needs
+# to know which packages they should install on their side
+
+# Because our main.py SQLAlchemy database is now pointing to an environment 
+# variable that is only avilable on Heroku, if you run the app right now locally, 
+# you will get some errors.
+
+# Instead, we want to provide SQLite as the alternative when we're developing 
+# the app locally.
+
+# Update the app config to use "DATABASE_URL" environment variable if provided, 
+# but if it's None (e.g. when running locally) then we can provide 
+# sqlite:///blog.db as the alternative.
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL",  "sqlite:///blog.db")
+
+
+# Finally, if you go to your heroku app, it should now be up and using a Postgres database.
