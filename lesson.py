@@ -52,3 +52,18 @@
 # The Remote Repository - is a repository saved in another computer e.g. GitHub
 # The Master Branch - is the main branch of commits, is sequential and is where
 # your main progress is committed
+
+
+# WSGI stands for Web Server Gateway Interface and it's described here: 
+# https://www.python.org/dev/peps/pep-3333/
+
+# It standardises the language and protocols between our Python Flask application 
+# and the host server.
+
+# Again, but in English: Normal web servers can't run Python applications, so a 
+# special type of server was created (WSGI) to run python applications.
+
+# There are many WSGIs to choose from, but we'll use the most popular - gunicorn.
+
+# So Heroku will call gunicorn to run our code and gunicorn will know how to speak 
+# to Heroku.
